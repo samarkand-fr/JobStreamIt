@@ -1,0 +1,22 @@
+/* base.css */
+:root {
+    --brand-red: #FF1E1E;
+    --brand-dark: #000000;
+    --gray-bg: #E5E5E5;
+    --header-gray: #61787F;
+    --text-white: #FFFFFF;
+    --oswald: 'Oswald', sans-serif;
+}
+
+body {
+    background-color: var(--gray-bg);
+    display: flex;
+    justify-content: center;
+}
+
+
+.page-container {
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+}
