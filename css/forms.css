@@ -1,0 +1,89 @@
+/* ============================================================
+   forms.css – Dropdowns and Forms
+   ============================================================ */
+
+.genre-section-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 50;
+}
+@media (min-width: 768px) {
+    .genre-section-title { flex-direction: row; justify-content: flex-start; }
+}
+
+.genre-selector-container {
+    margin-bottom: 3rem;
+}
+
+.dropdown-relative-container {
+    position: relative;
+}
+
+.genre-select-trigger-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--brand-dark);
+    background-color: var(--text-white);
+    color: var(--brand-dark);
+    cursor: pointer;
+    font-family: var(--oswald);
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: middle;
+    padding: 0 15px;
+    width: 285px;
+    height: 68px;
+    font-size: 36px;
+}
+.genre-select-trigger-btn:focus { outline: none; }
+@media (min-width: 768px) { .genre-select-trigger-btn { padding: 0 20px; width: 404px; height: 78.43px; font-size: 36px; } }
+@media (min-width: 1024px) { .genre-select-trigger-btn { width: 404px; height: 78.43px; font-size: 36px; } }
+
+.dropdown-arrow {
+    width: 33px;
+    height: 42px;
+    color: var(--brand-dark);
+    pointer-events: none;
+    font-family: 'Oranienbaum', serif;
+}
+@media (min-width: 1024px) { .dropdown-arrow { width: 33px; height: 42px; } }
+
+.genre-options-list-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border: 1px solid var(--brand-dark);
+    background-color: var(--text-white);
+    color: var(--brand-dark);
+    overflow-y: auto;
+    margin-top: -1px;
+    font-family: var(--oswald);
+    font-weight: 600;
+    width: 229.51px;
+    max-height: 362px;
+    z-index: 100;
+}
+@media (min-width: 768px) { .genre-options-list-container { width: 241.85px; } }
+@media (min-width: 1024px) { .genre-options-list-container { width: 404px; } }
+
+.genre-option {
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: var(--text-white);
+    transition: background-color 0.2s;
+    border-bottom: 1px solid var(--brand-dark);
+    font-family: var(--oswald);
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 32px;
+}
+.genre-option:hover { background-color: #F5F5F5; }
+@media (min-width: 768px) { .genre-option { padding: 10px 20px; } }
+@media (min-width: 1024px) { .genre-option { font-size: 36px; } }

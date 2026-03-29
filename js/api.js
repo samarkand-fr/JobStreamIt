@@ -1,37 +1,39 @@
-const API_URL = 'http://localhost:8000/api/v1';
-const MOVIES_PER_SECTION = 6;
+/* ============================================================
+   API SERVICE
+   ============================================================ */
 
 async function fetchMovies(params = '', count = MOVIES_PER_SECTION) {
     const collected = [];
-    // 1. Start with the initial URL
-    let url = `${API_URL}/titles/?${params}`;
-    
-    console.log(`Starting fetch: ${url}`);
-    
+    let url = `${API_BASE_URL}/titles/?${params}&page_size=${count}`;
     try {
         while (collected.length < count && url) {
             const response = await fetch(url);
-            
-            if (!response.ok) {
-                console.error(` API Error: ${response.status}`);
-                break;
-            }
-            
+            if (!response.ok) break;
             const data = await response.json();
             collected.push(...data.results);
-            
-            console.log(`Collected ${collected.length}/${count} movies`);
-            console.table(data.results);
-            
-            // 2. Only fetch 'next' if we haven't reached our count yet
             url = (collected.length < count) ? data.next : null;
         }
-    } catch (err) { 
-        console.error('fetchMovies error:', err); 
-    }
-    
-    // 3. Return exactly the amount requested
+    } catch (err) { console.error('fetchMovies error:', err); }
     return collected.slice(0, count);
 }
 
-fetchMovies()
+async function fetchMovieDetails(id) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/titles/${id}`);
+        return response.ok ? await response.json() : null;
+    } catch (err) { return null; }
+}
+
+async function fetchAllGenres() {
+    const genres = [];
+    let url = `${API_BASE_URL}/genres/?page_size=20`;
+    try {
+        while (url) {
+            const response = await fetch(url);
+            const data = await response.json();
+            genres.push(...data.results);
+            url = data.next;
+        }
+    } catch (err) { }
+    return genres;
+}

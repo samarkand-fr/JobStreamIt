@@ -1,0 +1,302 @@
+/* ============================================================
+   modal.css – Movie Modal and Animation Styles
+   ============================================================ */
+
+.modal-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 896px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Modal Inner Template Styles */
+
+.modal-loading, .modal-error {
+    background-color: var(--text-white);
+    padding: 2rem;
+    text-align: center;
+    font-family: var(--oswald);
+    font-size: 1.5rem;
+    color: var(--brand-dark);
+}
+
+.modal-desktop-container {
+    display: none;
+}
+@media (min-width: 1024px) {
+    .modal-desktop-container {
+        display: flex;
+    }
+}
+
+.modal-mobile-container {
+    display: flex;
+}
+@media (min-width: 1024px) {
+    .modal-mobile-container {
+        display: none;
+    }
+}
+
+.modal-desktop {
+    width: 778px;
+    min-height: 939px;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
+    padding: 2.5rem; /* p-10 */
+    align-items: flex-start;
+    overflow: hidden;
+    background-color: var(--text-white);
+    color: var(--brand-dark);
+    border: 6px solid var(--brand-dark);
+}
+
+.modal-inner-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 2rem; /* mb-8 */
+}
+
+.modal-info-col {
+    display: flex;
+    flex-direction: column;
+    width: 423px;
+    padding-right: 1.25rem; /* pr-5 */
+}
+
+.modal-title-text {
+    font-family: var(--oswald);
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 1.1;
+    margin-bottom: 0.5rem; /* mb-2 */
+    color: var(--brand-dark);
+    margin-top: 0;
+}
+
+.modal-meta {
+    font-family: var(--oswald);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--brand-dark);
+    margin-bottom: 1.5rem; /* mb-6 */
+    line-height: inherit;
+    margin-top: 0;
+}
+
+.modal-dir-section {
+    font-family: var(--oswald);
+    font-size: 18px;
+    color: var(--brand-dark);
+}
+.modal-dir-section > p {
+    margin-top: 0;
+}
+.modal-dir-section .mb-1 {
+    margin-bottom: 0.25rem;
+}
+.modal-dir-section .font-normal {
+    font-weight: 400;
+}
+
+.modal-img-col {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-poster {
+    width: 227px;
+    height: 334px;
+    object-fit: cover;
+}
+
+.modal-desc-section {
+    width: 698px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* gap-6 */
+}
+
+.modal-long-desc {
+    font-family: var(--oswald);
+    font-weight: 300; /* font-light */
+    font-size: 24px;
+    line-height: 1.625; /* relaxed */
+    color: var(--brand-dark);
+    text-align: justify;
+    margin: 0;
+}
+
+.modal-cast-section {
+    font-family: var(--oswald);
+    font-size: 20px;
+    color: var(--brand-dark);
+    margin-top: 0.5rem; /* mt-2 */
+}
+.modal-cast-section > p {
+    margin-top: 0;
+}
+.modal-cast-section .font-bold {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+.modal-cast-section .leading-snug {
+    line-height: 1.375;
+}
+
+.modal-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding-top: 2.5rem; /* pt-10 */
+}
+
+.modal-close-btn {
+    background-color: var(--brand-red);
+    color: var(--text-white);
+    font-family: var(--oswald);
+    font-weight: 700;
+    font-size: 18px;
+    width: 214px;
+    height: 36px;
+    border-radius: 9999px;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+}
+.modal-close-btn:hover {
+    background-color: var(--brand-dark);
+}
+
+/* TABLET & MOBILE MODAL */
+
+@media (min-width: 640px) { 
+    .modal-mobile { 
+        width: 650px;
+        padding-left: 2.5rem; 
+        padding-right: 2.5rem; 
+    } 
+}
+
+.modal-mobile-x {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    color: var(--brand-red);
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s;
+}
+.modal-mobile-x:hover {
+    color: var(--brand-dark);
+}
+
+.modal-mobile-top {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+    padding-right: 2rem;
+}
+
+.modal-mobile-title {
+    font-family: var(--oswald);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    color: var(--brand-dark);
+    margin-top: 0;
+}
+
+.modal-mobile-meta {
+    font-family: var(--oswald);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.25;
+    color: var(--brand-dark);
+    text-align: left;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+}
+
+.modal-mobile-dir p {
+    margin: 0;
+    line-height: 1.375;
+}
+
+.modal-mobile-desc {
+    width: 100%;
+    font-family: var(--oswald);
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 1.3;
+    color: var(--brand-dark);
+    margin-bottom: 2rem;
+    text-align: left;
+    margin-top: 0;
+}
+@media (min-width: 640px) { .modal-mobile-desc { font-size: 24px; } }
+
+.modal-mobile-poster {
+    width: 409px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto 2rem auto;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); /* shadow-sm */
+    border: 1px solid var(--border-gray); /* border-gray-200 closely */
+    display: block;
+}
+
+.modal-mobile-cast {
+    width: 100%;
+    font-family: var(--oswald);
+    font-size: 18px;
+    color: var(--brand-dark);
+    text-align: left;
+    padding-bottom: 1rem;
+}
+@media (min-width: 640px) { .modal-mobile-cast { font-size: 20px; } }
+.modal-mobile-cast p { margin: 0; line-height: 1.375; }
+.modal-mobile-cast p:first-child { font-weight: 700; margin-bottom: 0.25rem; }
+
+
+/* Animations */
+.modal-animate {
+    animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}

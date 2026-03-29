@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JustStreamIt – Découvrez les meilleurs films avec notre interface inspirée par le cinéma.">
+    <title>JustStreamIt</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Stylesheets -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Oswald:wght@300;400;600;700&family=Oranienbaum&display=swap" rel="stylesheet">
+    
+    <!-- Modularized CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/movie-grid.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/modal.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <!-- Main Application Header -->
+        <header id="main-header" class="main-header">
+            <figure class="logo-container">
+                <img src="assets/img/logo.png" alt="JustStreamIt Logo" class="logo-img">
+            </figure>
+            <div class="header-text" id="header-text">
+                <p>Vidéos à la demande</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- BEST MOVIE SECTION (Hero) -->
+            <section id="hero" aria-labelledby="best-movie-heading">
+                <header class="section-title">
+                    <h2 id="best-movie-heading" class="section-heading-text">Meilleur film</h2>
+                </header>
+                <article id="best-movie" class="hero-card">
+                    <!-- Poster Left -->
+                    <figure class="hero-img-col">
+                        <img id="best-movie-img" src="" alt="Best Movie Poster">
+                    </figure>
+                    <!-- Text Right -->
+                    <figcaption class="hero-content">
+                        <h3 id="best-movie-title" class="hero-title">Chargement...</h3>
+                        <p id="best-movie-summary" class="hero-summary">Chargement du résumé...</p>
+                        <button id="best-movie-details" class="hero-details-btn btn-primary" aria-label="View details for best movie">Détails</button>
+                    </figcaption>
+                </article>
+            </section>
+
+            <!-- DYNAMIC SECTIONS CONTAINER (Injected via JS) -->
+            <div id="dynamic-categories"></div>
+
+            <!-- CUSTOM GENRE SELECTOR SECTION (Square 3) -->
+            <section id="custom" class="genre-selector-container" aria-labelledby="custom-heading">
+                <header class="section-title genre-section-title">
+                    <h2 id="custom-heading" class="section-heading-text">Autres:</h2>
+                    <div id="custom-dropdown-container" class="dropdown-relative-container">
+                        <!-- Dropdown Button -->
+                        <button id="genre-select-trigger" class="genre-select-trigger-btn" aria-haspopup="listbox" aria-expanded="false">
+                            <span id="genre-select-value" class="pointer-events-none">Comédies</span>
+                            <svg id="genre-select-arrow" class="dropdown-arrow pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"></path>
+                            </svg>
+                        </button>
+                        <!-- Dropdown List -->
+                        <nav id="genre-options-list" class="genre-options-list-container hidden-element" role="listbox"></nav>
+                    </div>
+                </header>
+                
+                <div id="custom-grid" class="hidden-element movie-grid" role="grid"></div>
+                <div id="custom-placeholder" class="placeholder-box">
+                    <span class="placeholder-text">Catégorie choisie dans le menu déroulant</span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MOVIE MODAL -->
+    <dialog id="movie-modal" class="modal-wrapper hidden-element" aria-modal="true">
+        <div id="modal-overlay" class="modal-overlay"></div>
+        <div class="modal-container">
+            <button id="close-modal" class="hidden-element" aria-label="Close modal">&times;</button>
+            <div id="modal-content">
+                <!-- Modal details injected here -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- HTML TEMPLATES FOR JAVASCRIPT USE -->
+    <template id="movie-card-tpl">
+        <article class="movie-card movie-card-base group" tabindex="0">
+            <img class="card-img" alt="" loading="lazy">
+            <div class="overlay-band">
+                <div class="card-title-container">
+                    <span class="card-title">Titre</span>
+                </div>
+                <div class="card-details-btn-wrapper">
+                    <button class="card-details-btn" aria-label="View Movie Details">Détails</button>
+                </div>
+            </div>
+        </article>
+    </template>
+
+    <template id="category-section-tpl">
+        <section class="category-section" aria-labelledby="">
+            <header class="section-title">
+                <h2 class="section-heading-text"></h2>
+            </header>
+            <div class="movie-grid" role="grid"></div>
+            <div class="more-btn-container hidden-element">
+                <button class="more-btn btn-primary">Voir plus</button>
+            </div>
+        </section>
+    </template>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
