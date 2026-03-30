@@ -42,7 +42,7 @@
     padding-bottom: 2.5rem;
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 3rem;
 }
 
 @media (min-width: 1024px) {
@@ -191,7 +191,7 @@
     margin: 0;
     flex-shrink: 0;
     color: #000000;
-    font-size: 40px;
+    font-size: 32px;
     line-height: 1;
     letter-spacing: 0;
     min-width: 162px;
@@ -200,10 +200,12 @@
     align-items: center;
     justify-content: center;
     white-space: nowrap;
+    margin : 20px 0;
 }
 
 #top-rated-title {
     width: 273px;
+    margin-bottom: 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -216,6 +218,7 @@
 
     #top-rated-title {
         width: 340px;
+        font-weight: 600;
     }
 }
 
