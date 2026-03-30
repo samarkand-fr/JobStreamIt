@@ -87,7 +87,8 @@
     margin-bottom: 1rem;
     margin-top: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;  
     overflow: hidden;
     vertical-align: middle;

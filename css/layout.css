@@ -51,29 +51,25 @@
     }
 }
 
+/* ============================================================
+   main-header – Parent Container
+   ============================================================ */
 .main-header {
-    margin: 0 auto;
-    background-color: var(--header-gray);
-    border: 1px solid var(--brand-dark);
     display: flex;
-    justify-content: center;
     align-items: center;
-    position: relative;
+    justify-content: center; /* Mobile: center logo */
+    padding: 0 20px;
+    height: 150px;
+    background-color: var(--header-gray);
+    margin: 0 auto;
     width: 329px;
-    height: 137px;
-    margin-top: 20px;
-    padding: 0;
 }
 
 @media (min-width: 768px) {
     .main-header {
-        flex-direction: row;
         width: 619px;
         height: 137px;
-        margin-top: 30px;
-        padding: 0;
-        justify-content: space-between;
-        gap: 0;
+        justify-content: space-between; /* Tablet: good as is */
     }
 }
 
@@ -81,26 +77,23 @@
     .main-header {
         width: 837px;
         height: 122px;
-        margin-top: 40px;
-        padding: 0;
+        justify-content: flex-start;
+        gap: 30px;
     }
 }
 
+/* logo-container – Figure Wrapper */
 .logo-container {
     display: flex;
     align-items: center;
+    margin: 0;
+    padding: 0;
     background-color: transparent;
-    margin-top: 5px;
-}
-
-@media (min-width: 768px) {
-    .logo-container {
-        margin-top: 0;
-    }
 }
 
 .logo-img {
     object-fit: contain;
+    display: block;
     width: 182px;
     height: 130px;
 }
@@ -119,18 +112,20 @@
     }
 }
 
+/* header-text – Title on right */
 .header-text {
     font-family: var(--oswald);
     color: var(--text-white);
     font-weight: 300;
     line-height: 1;
-    display: none;
+    display: none; /* Mobile hidden */
     align-items: center;
     justify-content: center;
     text-align: center;
     font-size: 24px;
     pointer-events: none;
 }
+
 
 .header-text p {
     margin: 0;
@@ -139,10 +134,9 @@
 @media (min-width: 768px) {
     .header-text {
         display: flex;
-        width: 380.13px;
-        height: 47.24px;
+        width: 380px;
+        height: 47px;
         font-size: 40px;
-        vertical-align: middle;
     }
 }
 
@@ -150,10 +144,17 @@
     .header-text {
         width: 514px;
         height: 51px;
-        font-size: 40px;
     }
 }
 
+@media (min-width: 1024px) {
+    .header-text {
+        width: 514px;
+        height: 51px;
+        text-align: left;
+        justify-content: flex-start;
+    }
+}
 .section-title {
     display: flex;
     align-items: center;
@@ -179,7 +180,7 @@
     .section-title {
         width: 836.21px;
         height: 105px;
-        margin-top: 50px;
+        text-align: left;
         justify-content: flex-start;
     }
 }

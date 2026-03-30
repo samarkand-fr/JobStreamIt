@@ -41,7 +41,7 @@
     font-size: 36px;
 }
 .genre-select-trigger-btn:focus { outline: none; }
-@media (min-width: 768px) { .genre-select-trigger-btn { padding: 0 20px; width: 404px; height: 78.43px; font-size: 36px; } }
+@media (min-width: 768px) { .genre-select-trigger-btn { padding: 0 20px; width: 404px; height: 78.43px; font-size: 36px; margin-left:-20px; } }
 @media (min-width: 1024px) { .genre-select-trigger-btn { width: 404px; height: 78.43px; font-size: 36px; } }
 
 .dropdown-arrow {

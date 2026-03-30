@@ -5,8 +5,8 @@
 .btn-primary {
     background-color: var(--brand-red);
     color: var(--text-white);
-    border-radius: 9999px;
-    font-weight: 700;
+    border-radius: 25px;
+    font-weight: 500;
     transition: background-color 0.3s;
     border: none;
     cursor: pointer;
@@ -26,6 +26,10 @@
 
 .more-btn {
     padding: 0.5rem 2.5rem;
+    width: 214px;
+    height:36px;
+    font-size: 20px;
+    letter-spacing: 0%;
 }
 
 .hero-details-btn {
@@ -79,7 +83,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     height: 32.28px;
     width: 105.75px;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
 }
 @media (min-width: 768px) { .card-details-btn { height: 28.95px; width: 94.82px; font-size: 11px; } }
