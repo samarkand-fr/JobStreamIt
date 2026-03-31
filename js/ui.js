@@ -72,11 +72,17 @@ function renderSection(sectionId, movies, showPlaceholder) {
         threshold = 4;
     }
     
+    // Slice data if not expanded
     const itemsToDisplay = isExpanded ? data : data.slice(0, threshold);
     
-    itemsToDisplay.forEach(m => {
-        grid.appendChild(createMovieCard(m));
+    // Render the grid: Create and append movie cards with staggered animations
+    itemsToDisplay.forEach((m, index) => {
+        const card = createMovieCard(m);
+        card.classList.add('card-animated');
+        card.style.animationDelay = `${index * 0.1}s`;
+        grid.appendChild(card);
     });
+
 
     const moreBtn = document.getElementById(`${sectionId}-more`);
     

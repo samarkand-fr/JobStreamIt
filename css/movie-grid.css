@@ -128,3 +128,24 @@
 }
 @media (min-width: 768px) { .placeholder-text { font-size: 1.875rem; } }
 @media (min-width: 1024px) { .placeholder-text { font-size: 2.25rem; } }
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes cardFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-animated {
+    opacity: 0;
+    animation: cardFadeInUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
