@@ -20,10 +20,17 @@ JustStreamIt is a modern web application for discovering movies, inspired by cin
 
 ### Installation
 
-. Clone the repository to your local machine.
-2. Start the OCMovies backend server — refer to the detailed instructions in the [OCMovies-API-EN-FR repository](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR).
-3. Verify the API endpoint in [config.js](file:///Users/dina/Desktop/just_streamit/js/config.js) (default is `http://localhost:8000/api/v1`).
-4. Open `index.html` in a modern web browser.
+### Installation Steps
+
+1. **Clone the repository** to your local machine.
+
+```bash
+git clone https://github.com/samarkand-fr/JobStreamIt.git
+```
+
+2. **Start the OCMovies backend server** — refer to the detailed instructions in the [OCMovies-API-EN-FR repository](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR).
+3. **Verify the API endpoint** in `js/config.js` (default is `http://localhost:8000/api/v1`).
+4. **Open `index.html`** in a modern web browser.
 
 ## Project Structure
 
