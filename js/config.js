@@ -25,39 +25,39 @@ const PLACEHOLDER_IMG = 'assets/img/placeholder.png';
  * - sections: Configuration for each movie category displayed on the home page
  */
 const state = {
-    bestMovieId: null,
+    bestMovieId: null, // Tracks the ID of the movie featured in the Hero section to avoid duplication in grids
     sections: {
-        // Section: Top Rated movies (global)
-        'top-rated': { 
-            params: 'imdb_score_min=9.0', 
-            title: 'Films les mieux notés', 
-            movies: [], 
-            isExpanded: false, 
-            showPlaceholder: false 
+        // Absolute best movies based on IMDb score
+        'top-rated': {
+            params: 'sort_by=-imdb_score',
+            title: 'Films les mieux notés',
+            movies: [],
+            isExpanded: false,
+            showPlaceholder: false
         },
-        // Section: Mystery genre (Specific category 1)
-        'cat1': { 
-            params: 'genre=Mystery&imdb_score_min=8.0', 
-            title: 'Mystery', 
-            movies: [], 
-            isExpanded: false, 
-            showPlaceholder: false 
+        // Hardcoded category 1: Mystery
+        'cat1': {
+            params: 'genre=Mystery&sort_by=-imdb_score',
+            title: 'Mystery',
+            movies: [],
+            isExpanded: false,
+            showPlaceholder: false
         },
-        // Section: Adventure genre (Specific category 2)
-        'cat2': { 
-            params: 'genre=Adventure&imdb_score_min=8.0', 
-            title: 'Adventure', 
-            movies: [], 
-            isExpanded: false, 
-            showPlaceholder: false 
+        // Hardcoded category 2: Adventure
+        'cat2': {
+            params: 'genre=Adventure&sort_by=-imdb_score',
+            title: 'Adventure',
+            movies: [],
+            isExpanded: false,
+            showPlaceholder: false
         },
-        // Section: Custom genre (Selected via dropdown)
-        'custom': { 
-            params: 'imdb_score_min=8.0', 
-            title: 'Autres', 
-            movies: [], 
-            isExpanded: false, 
-            showPlaceholder: true 
+        // Dynamic category selected by the user via the dropdown
+        'custom': {
+            params: 'sort_by=-imdb_score',
+            title: 'Autres',
+            movies: [],
+            isExpanded: false,
+            showPlaceholder: true // Starts with a placeholder until a genre is selected
         }
     }
 };
