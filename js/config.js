@@ -5,24 +5,32 @@
    ============================================================ */
 
 /**
- * Base URL for the OCMovies API
+ * @constant {string} API_BASE_URL 
+ * The root endpoint for the localized OCMovies backend server.
  */
 const API_BASE_URL = 'http://localhost:8000/api/v1';
 
 /**
- * Number of movies to fetch and display per section by default
+ * @constant {number} MOVIES_PER_SECTION 
+ * The default slice quantity of movie cards to inject into the DOM per category grid.
  */
 const MOVIES_PER_SECTION = 6;
- 
-/** 
-* Placeholder image URL for movies without a valid image
-*/
-const PLACEHOLDER_IMG = 'assets/img/placeholder.png';
 
 /**
- * Global state of the application
- * - bestMovieId: ID of the highest rated movie to avoid duplicates in grids
- * - sections: Configuration for each movie category displayed on the home page
+ * @typedef {Object} SectionState
+ * @property {string} params - The query string parameters appended to the API fetch (e.g., genre routing).
+ * @property {string} title - The localized display title for the section grid.
+ * @property {Array<Object>} movies - The array housing the resolved and instantiated movie objects from the API fetch.
+ * @property {boolean} isExpanded - Toggles the layout rendering size between truncated and full expansion mapping.
+ * @property {boolean} showPlaceholder - Dictates whether the category dropdown grid is currently visible or masked behind the generic placeholder box.
+ */
+
+/**
+ * @type {{
+ *   bestMovieId: number|null,
+ *   sections: Record<string, SectionState>
+ * }}
+ * Global application storage tree. Centralizes real-time state mutations for modal routing and grid updates across the entire client.
  */
 const state = {
     bestMovieId: null, // Tracks the ID of the movie featured in the Hero section to avoid duplication in grids
