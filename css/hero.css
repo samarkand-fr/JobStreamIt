@@ -79,7 +79,7 @@
 .hero-summary {
     font-family: var(--oswald);
     font-weight: 200;
-    color: var(--text-gray-summary);
+    color: var(--brand-dark);
     line-height: 1.2;
     letter-spacing: 0.02em;
     font-size: 16px;

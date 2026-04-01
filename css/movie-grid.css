@@ -20,8 +20,8 @@
 .movie-card-base {
     position: relative;
     flex-shrink: 0;
-    width: 329px;
-    height: 318.96px;
+    width: 330px;
+    height: 320px;
     cursor: pointer;
     overflow: hidden;
     background-color: var(--brand-dark);
@@ -31,7 +31,7 @@
     .movie-card-base { width: 295px; height: 286px; }
 }
 @media (min-width: 1024px) {
-    .movie-card-base { width: 252px; height: 247px; }
+    .movie-card-base { width: 259px; height: 252px; }
 }
 
 .movie-card-base:hover {
