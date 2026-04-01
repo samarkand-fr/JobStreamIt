@@ -1,25 +1,75 @@
+'use strict';
+/**
+ * Main rendering function for section grids.
+ */
+function renderSection(sectionId, movies) {
+    // 1. Ensure the section and its grid exist in the DOM
+    let grid = ensureSectionExists(sectionId);
+    if (!grid) return;
 
+    const data = movies || state.sections[sectionId].movies || [];
+    const isExpanded = state.sections[sectionId].isExpanded;
+    const placeholder = document.getElementById('custom-placeholder');
+    const moreContainer = document.getElementById(`${sectionId}-more-container`);
+
+    // 2. Handle specific states: Custom Genre Placeholder and Error/Empty states
+    if (handleCustomPlaceholder(sectionId, grid, placeholder, moreContainer)) return;
+    
+    grid.innerHTML = '';
+    if (data.length === 0) {
+        renderError(grid, `Aucun film trouvé pour la catégorie "${state.sections[sectionId].title}".`);
+        if (moreContainer) moreContainer.classList.add('hidden-element');
+        return;
+    }
+
+    // 3. Calculate layout and render cards
+    const threshold = getResponsiveThreshold();
+    const itemsToDisplay = isExpanded ? data : data.slice(0, threshold);
+    
+    renderGridCards(grid, itemsToDisplay);
+
+    // 4. Update the "Voir plus" button visibility and action
+    handleMoreButton(sectionId, data, threshold);
+}
+
+/**
+ * Creates a movie card from a template.
+ */
 function createMovieCard(movie) {
     const tpl = document.getElementById('movie-card-tpl');
     const card = tpl.content.cloneNode(true).querySelector('article');
     const img = card.querySelector('.card-img');
-    const titleEl = card.querySelector('.card-title');
-
+    
     img.src = movie.image_url;
     img.alt = movie.title;
     img.onerror = () => { img.src = 'assets/img/placeholder.png'; };
+    
+    const titleEl = card.querySelector('.card-title');
     if (titleEl) titleEl.textContent = movie.title;
 
-    card.addEventListener('click', () => openModal(movie.id));
+    card.onclick = () => openModal(movie.id);
     return card;
 }
 
-function renderSection(sectionId, movies, showPlaceholder) {
-    let grid = document.getElementById(sectionId === 'custom' ? 'custom-grid' : `${sectionId}-grid`);
-    const placeholder = document.getElementById('custom-placeholder');
-    const moreContainer = document.getElementById(`${sectionId}-more-container`);
+/**
+ * Displays an error message with a retry button.
+ */
+function renderError(container, message = 'Échec du chargement.') {
+    container.innerHTML = `
+        <div class="error-message-container" style="padding: 20px; text-align: center; color: var(--brand-dark); font-family: Oswald;">
+            <p>${message}</p>
+            <button class="btn-primary" onclick="location.reload()" style="margin-top:10px; padding:5px 15px;">Réessayer</button>
+        </div>
+    `;
+}
 
-    // DRY DOM Creation: Instantiating the section via JS templates if missing
+
+/**
+ * Ensures the section exists, creating it from a template if needed.
+ */
+function ensureSectionExists(sectionId) {
+    let grid = document.getElementById(sectionId === 'custom' ? 'custom-grid' : `${sectionId}-grid`);
+    
     if (!grid && ['top-rated', 'cat1', 'cat2'].includes(sectionId)) {
         const container = document.getElementById('dynamic-categories');
         const tpl = document.getElementById('category-section-tpl');
@@ -29,74 +79,84 @@ function renderSection(sectionId, movies, showPlaceholder) {
             section.id = sectionId;
             section.setAttribute('aria-labelledby', `${sectionId}-title`);
             
-            const title = clone.querySelector('.section-heading-text');
-            title.id = `${sectionId}-title`;
-            title.textContent = state.sections[sectionId].title;
+            clone.querySelector('.section-heading-text').textContent = state.sections[sectionId].title;
+            clone.querySelector('.section-heading-text').id = `${sectionId}-title`;
             
-            grid = clone.querySelector('.movie-grid');
-            grid.id = `${sectionId}-grid`;
+            const gridEl = clone.querySelector('.movie-grid');
+            gridEl.id = `${sectionId}-grid`;
             
-            const moreContainerClone = clone.querySelector('.more-btn-container');
-            moreContainerClone.id = `${sectionId}-more-container`;
-            
-            const moreBtn = clone.querySelector('.more-btn');
-            moreBtn.id = `${sectionId}-more`;
+            clone.querySelector('.more-btn-container').id = `${sectionId}-more-container`;
+            clone.querySelector('.more-btn').id = `${sectionId}-more`;
             
             container.appendChild(clone);
+            grid = gridEl;
         }
     }
+    return grid;
+}
+
+/**
+ * Returns the card threshold based on viewport width.
+ * Mobile: 2, Tablet: 4, Desktop: 6
+ */
+function getResponsiveThreshold() {
+    const width = window.innerWidth;
+    if (width < 768) return 2;
+    if (width < 1024) return 4;
+    return 6;
+}
+
+/**
+ * Handles the "select a genre" vs results grid toggle for the Custom section.
+ * Returns true if the placeholder is currently active.
+ */
+function handleCustomPlaceholder(sectionId, grid, placeholder, moreContainer) {
+    if (sectionId !== 'custom') return false;
     
-    if (!grid) return;
-
-    const data = movies || state.sections[sectionId].movies || [];
-    const isExpanded = state.sections[sectionId].isExpanded;
-
-    // Toggle Placeholder for custom section
-    if (sectionId === 'custom' && state.sections.custom.showPlaceholder && placeholder) {
+    const showPlaceholder = state.sections.custom.showPlaceholder;
+    if (showPlaceholder && placeholder) {
         grid.classList.add('hidden-element');
         placeholder.style.display = 'flex';
         if (moreContainer) moreContainer.classList.add('hidden-element');
-        return;
-    } else if (sectionId === 'custom' && placeholder) {
+        return true;
+    } else if (placeholder) {
         grid.classList.remove('hidden-element');
         placeholder.style.display = 'none';
     }
+    return false;
+}
 
-    grid.innerHTML = '';
-    
-    let threshold = 6;
-    const width = window.innerWidth;
-    if (width < 768) {
-        threshold = 2;
-    } else if (width < 1024) {
-        threshold = 4;
-    }
-    
-    // Slice data if not expanded
-    const itemsToDisplay = isExpanded ? data : data.slice(0, threshold);
-    
-    // Render the grid: Create and append movie cards with staggered animations
-    itemsToDisplay.forEach((m, index) => {
+/**
+ * Instantiates and appends movie cards to the grid with staggered animations.
+ */
+function renderGridCards(grid, items) {
+    items.forEach((m, index) => {
         const card = createMovieCard(m);
         card.classList.add('card-animated');
         card.style.animationDelay = `${index * 0.1}s`;
         grid.appendChild(card);
     });
+}
 
-
+/**
+ * Manages the "Voir plus" button visibility and text.
+ */
+function handleMoreButton(sectionId, totalData, threshold) {
     const moreBtn = document.getElementById(`${sectionId}-more`);
+    const moreContainer = document.getElementById(`${sectionId}-more-container`);
     
-    if (moreContainer && moreBtn) {
-        // Force hide on desktop (width >= 1024) OR hide if movies count below threshold
-        if (data.length <= threshold || width >= 1024) {
-            moreContainer.classList.add('hidden-element');
-        } else {
-            moreContainer.classList.remove('hidden-element');
-            moreBtn.textContent = isExpanded ? 'Voir moins' : 'Voir plus';
-            moreBtn.onclick = () => {
-                state.sections[sectionId].isExpanded = !state.sections[sectionId].isExpanded;
-                renderSection(sectionId, data, showPlaceholder);
-            };
-        }
+    if (!moreBtn || !moreContainer) return;
+
+    const isExpanded = state.sections[sectionId].isExpanded;
+
+    if (totalData.length <= threshold) {
+        moreContainer.classList.add('hidden-element');
+    } else {
+        moreContainer.classList.remove('hidden-element');
+        moreBtn.textContent = isExpanded ? 'Voir moins' : 'Voir plus';
+        moreBtn.onclick = () => {
+            state.sections[sectionId].isExpanded = !isExpanded;
+            renderSection(sectionId, totalData);
+        };
     }
 }
