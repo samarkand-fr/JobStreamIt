@@ -21,14 +21,14 @@
  */
 async function init() {
     try {
-        // Initialize the featured hero movie section
-        await initHero();
+        // Performance: Run independent initialization tasks in parallel
+        // Note: initHero is awaited separately first to set state.bestMovieId for filtering
+        await initHero(); 
         
-        // Initialize the three static category carousels
-        await initStaticSections(['top-rated', 'cat1', 'cat2']);
-        
-        // Populate and set up the interactive genre selector (dropdown)
-        await initGenreSelector();
+        await Promise.all([
+            initStaticSections(['top-rated', 'cat1', 'cat2']),
+            initGenreSelector()
+        ]);
     } catch (error) {
         console.error('Critical initialization failure:', error);
         const dynamicContainer = document.getElementById('dynamic-categories');
@@ -73,14 +73,13 @@ async function initHero() {
  * @param {Array<string>} keys - List of state keys representing categories (e.g., 'top-rated').
  */
 async function initStaticSections(keys) {
-    for (const key of keys) {
+    // Performance: Fetch and render all sections in parallel instead of sequentially
+    await Promise.all(keys.map(async (key) => {
         try {
             const params = state.sections[key].params;
-            // Fetch more movies (12) than displayed (6) to allow for hero-filtering and better sorting
             let movies = await fetchMovies(params, 12);
             movies = sortMovies(movies);
             
-            // Avoid showing the hero movie twice on the same page
             if (state.bestMovieId) {
                 movies = movies.filter(m => m.id !== state.bestMovieId);
             }
@@ -89,10 +88,9 @@ async function initStaticSections(keys) {
             renderSection(key);
         } catch (err) {
             console.error(`Failed to load section: ${key}`, err);
-            // renderSection(key, []) will display the "No movies found/Error" UI in that specific grid
             renderSection(key, []);
         }
-    }
+    }));
 }
 
 /**
@@ -109,6 +107,8 @@ async function initGenreSelector() {
         allGenres.forEach(genre => {
             const div = document.createElement('div');
             div.className = 'genre-option';
+            div.setAttribute('role', 'option');
+            div.setAttribute('aria-selected', 'false'); // Updated dynamically in handleGenreSelection
             // Each option contains its label and a container for the "selected" checkmark
             div.innerHTML = `<span>${genre.label}</span><div class="checkmark-container"></div>`;
             div.onclick = () => handleGenreSelection(genre);
@@ -147,6 +147,7 @@ async function handleGenreSelection(genre) {
         document.querySelectorAll('.genre-option').forEach(opt => {
             const isSelected = opt.querySelector('span').textContent === genre.label;
             opt.classList.toggle('selected', isSelected);
+            opt.setAttribute('aria-selected', isSelected);
             const checkmarkContainer = opt.querySelector('.checkmark-container');
             if (checkmarkContainer) {
                 checkmarkContainer.innerHTML = isSelected ? checkmarkSVG : '';
