@@ -68,18 +68,21 @@ function createMovieCard(movie) {
     const tpl = document.getElementById('movie-card-tpl');
     const card = tpl.content.cloneNode(true).querySelector('article');
     const img = card.querySelector('.card-img');
-    
-    // Assign data to elements
+
+    // Assign poster image and alt text
     img.src = movie.image_url;
     img.alt = movie.title;
-    
+
     // Safety fallback: if the backend image URL is broken, display a local placeholder
     img.onerror = () => { img.src = 'assets/img/placeholder.png'; };
-    
+
+    // FIX: Inject the actual film title into the hover overlay band
     const titleEl = card.querySelector('.card-title');
+    if (titleEl) titleEl.textContent = movie.title;
+
     // Accessibility: Provide a descriptive label for screen readers
     card.setAttribute('aria-label', `Film : ${movie.title}. Cliquez pour voir les détails.`);
-    
+
     // Open the detailed information modal when the card is clicked
     card.onclick = () => openModal(movie.id);
     return card;
@@ -102,7 +105,7 @@ function renderError(container, message = 'Échec du chargement.') {
 }
 
 /* ============================================================
-   INTERNAL HELPERS
+    INTERNAL HELPERS
    ============================================================ */
 
 /**
