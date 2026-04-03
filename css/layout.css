@@ -127,9 +127,14 @@
 }
 
 
-.header-text p {
+
+.header-text p,
+.header-tagline {
     margin: 0;
+    font-weight: inherit;
+    font-size: inherit;
 }
+
 
 @media (min-width: 768px) {
     .header-text {

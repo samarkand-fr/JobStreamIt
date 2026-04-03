@@ -26,17 +26,18 @@
     <a href="#hero" class="skip-link">Passer au contenu principal</a>
     <div class="page-container">
         <!-- HEADER: Brand Logo and Application Title -->
-        <header id="main-header" class="main-header" >
+        <header id="main-header" class="main-header">
             <h1 class="sr-only">JustStreamIt - Découvrez les meilleurs films</h1>
             <figure class="logo-container">
                 <img src="assets/img/logo.png" alt="JustStreamIt Logo" class="logo-img">
             </figure>
             <div class="header-text" id="header-text">
-                <p role="presentation" aria-hidden="true">Vidéos à la demande</p>
+                <!-- Changed from <p> to <h2> to satisfy WAVE 'Possible heading' alert and document hierarchy -->
+                <h2 class="header-tagline">Vidéos à la demande</h2>
             </div>
         </header>
 
-        <main class="main-content" >
+        <main class="main-content">
             
             <!-- BEST MOVIE (HERO) SECTION: Highlighted top-rated movie -->
             <section id="hero" aria-labelledby="best-movie-heading">
