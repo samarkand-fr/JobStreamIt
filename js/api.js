@@ -62,25 +62,42 @@ async function fetchMovieDetails(id) {
 }
 
 /**
- * Fetches all available genres from the API.
- * Iterates through all paginated results to ensure no genre is missed.
- * 
- * @returns {Promise<Array<Object>>} List of all genre objects { id, name }.
+ * fetchAllGenres – Retrieves the complete list of genres from the API.
+ * * This function handles pagination automatically. By setting page_size=30,
+ * it attempts to fetch all known genres (~25) in a single request for speed,
+ * but will continue fetching if the API contains more pages.
+ *
+ * @returns {Promise<Array>} A list of all genre objects found.
  */
 async function fetchAllGenres() {
     const genres = [];
-    let url = `${API_BASE_URL}/genres/?page_size=20`;
+    
+    // Start with the first page. page_size=30 maximizes the items per request 
+    // to reduce the number of total network round-trips.
+    let url = `${API_BASE_URL}/genres/?page_size=30`;
     
     try {
+        // Continue looping as long as the API provides a 'next' page URL.
         while (url) {
             const response = await fetch(url);
+            
+            // Stop the loop if the server returns an error (e.g., 404 or 500).
             if (!response.ok) break;
+
             const data = await response.json();
+            
+            // Spread the current page results into our master genres array.
             genres.push(...data.results);
+            
+            // Update the url variable with the 'next' property from the API.
+            // If there are no more pages, 'next' is null, which exits the while loop.
             url = data.next;
         }
     } catch (err) {
+        // Log network-level errors (like being offline) without crashing the app.
         console.error('fetchAllGenres error:', err);
     }
+
+    // Returns all collected genres (or an empty array if the fetch failed).
     return genres;
 }
