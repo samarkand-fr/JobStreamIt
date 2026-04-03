@@ -73,18 +73,27 @@ async function initHero() {
  * @param {Array<string>} keys - List of state keys representing categories (e.g., 'top-rated').
  */
 async function initStaticSections(keys) {
-    // Performance: Fetch and render all sections in parallel instead of sequentially
+    // STEP 1: Pre-create section containers in correct DOM order (sequential).
+    // This guarantees visual order regardless of which API call resolves first.
+    keys.forEach(key => ensureSectionExists(key));
+
+    // STEP 2: Fetch all section data in parallel for performance.
     await Promise.all(keys.map(async (key) => {
         try {
             const params = state.sections[key].params;
-            let movies = await fetchMovies(params, 12);
+            // Fetch 7: 6 needed + 1 buffer in case bestMovie needs to be filtered out
+            let movies = await fetchMovies(params, 7);
             movies = sortMovies(movies);
-            
+
             if (state.bestMovieId) {
                 movies = movies.filter(m => m.id !== state.bestMovieId);
             }
-            
-            state.sections[key].movies = movies;
+
+            // Cap at exactly 6: spec requires 6 films per category
+            // (Mobile: 2 visible + 4 on "Voir plus" | Tablet: 4 + 2 | Desktop: all 6)
+            state.sections[key].movies = movies.slice(0, 6);
+
+            // STEP 3: Render each section with its data (fills the pre-created container).
             renderSection(key);
         } catch (err) {
             console.error(`Failed to load section: ${key}`, err);
@@ -158,9 +167,11 @@ async function handleGenreSelection(genre) {
         prepareCustomGridForLoading();
 
         const params = `genre=${genre.apiName}&sort_by=-imdb_score`;
-        let movies = await fetchMovies(params, 12);
+        // Fetch 7: 6 needed + 1 buffer (though unlikely here, it maintains consistency)
+        let movies = await fetchMovies(params, 7);
         
-        state.sections.custom.movies = sortMovies(movies);
+        // Cap at exactly 6 to ensure consistent "Voir plus" behavior across all devices
+        state.sections.custom.movies = sortMovies(movies).slice(0, 6);
         state.sections.custom.title = genre.label;
         state.sections.custom.showPlaceholder = false;
         
@@ -173,7 +184,7 @@ async function handleGenreSelection(genre) {
 }
 
 /* ============================================================
-   HELPERS & DOM UPDATES
+    HELPERS & DOM UPDATES
    ============================================================ */
 
 const checkmarkSVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="#00B900"/><path d="M10 15.172l-3.536-3.536 1.414-1.414L10 12.344l7.071-7.071 1.414 1.414L10 15.172z" fill="#ffffff"/></svg>`;
